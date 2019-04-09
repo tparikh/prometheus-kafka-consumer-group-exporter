@@ -3,6 +3,7 @@ import javaproperties
 import logging
 import signal
 import sys
+import os
 
 from jog import JogFormatter
 from kafka import KafkaConsumer
@@ -100,7 +101,12 @@ def main():
         'consumer_timeout_ms': 500
     }
 
-    for filename in args.consumer_config:
+    config_file = os.environ.get('CONSUMER_CONFIG')
+
+    if not config_file:
+        config_file = args.consumer_config
+
+    for filename in config_file:
         with open(filename) as f:
             raw_config = javaproperties.load(f)
             converted_config = {k.replace('.', '_'): v for k, v in raw_config.items()}
