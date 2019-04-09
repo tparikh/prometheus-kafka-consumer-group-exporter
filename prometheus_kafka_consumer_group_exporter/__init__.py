@@ -101,12 +101,9 @@ def main():
         'consumer_timeout_ms': 500
     }
 
-    config_file = os.environ.get('CONSUMER_CONFIG')
+    args.consumer_config.append(os.environ.get('CONSUMER_CONFIG'))
 
-    if not config_file:
-        config_file = args.consumer_config
-
-    for filename in config_file:
+    for filename in args.consumer_config:
         with open(filename) as f:
             raw_config = javaproperties.load(f)
             converted_config = {k.replace('.', '_'): v for k, v in raw_config.items()}
