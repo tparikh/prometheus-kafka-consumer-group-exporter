@@ -13,7 +13,7 @@ IMG="${BASE_IMG}:latest"
 GIT_HASH=`git rev-parse --short=7 HEAD`
 
 # build the image
-BUILD_CMD="docker build" IMG="$IMG" make docker-build
+docker build -t ${IMG} -f Dockerfile .
 
 # push the image to quay
 skopeo copy --dest-creds "${QUAY_USER}:${QUAY_TOKEN}" \
